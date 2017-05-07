@@ -3,10 +3,10 @@ var app = express()
 //configuramos el motor de vista
 app.set('view engine', 'pug')
 
-app.get('/', function (req, res) {
+app.get('/',  (req, res)=>{
   res.render('index')
 })
 
-app.listen(3000, function () {
+app.listen(3000, ()=>{
   console.log('Example app listening on port 3000!')
 })
