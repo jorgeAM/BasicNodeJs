@@ -1,4 +1,19 @@
 const bodyParser = require('body-parser')
+
+//ORM para mongodb - conexion a mongodb
+const mongoose = require('mongoose')
+mongoose.connect('mongodb://localhost/fotos')
+
+//creamos el schema de user
+var UserSchema = mongoose.Schema({
+	email: String,
+	password: String
+})
+
+//ahora debemos compilar nuestro Schema en Model
+var User = mongoose.model('User', UserSchema)
+
+
 const express = require('express')
 var app = express()
 
@@ -18,13 +33,22 @@ app.get('/', (req, res)=>{
 })
 
 app.get('/login', (req, res)=>{
-  res.render('login')
+	User.find((err, doc)=>{
+		console.log(doc)
+		res.render('login')
+	})
 })
 
 app.post('/users',(req, res)=>{
-	console.log(req.body.email)
-	console.log(req.body.password)
-	res.send("Recibimos tus datos")
+	//creamos modelo User
+	let user = new  User({
+		email: req.body.email,
+		password: req.body.password
+	})
+	//guardamos user
+	user.save(()=>{
+		res.send("Recibimos tus datos")
+	})
 })
 
 app.listen(3000, ()=>{
