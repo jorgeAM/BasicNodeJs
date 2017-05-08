@@ -1,20 +1,7 @@
 const bodyParser = require('body-parser')
-
-//ORM para mongodb - conexion a mongodb
-const mongoose = require('mongoose')
-mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/fotos')
-
-//creamos el schema de user
-const UserSchema = mongoose.Schema({
-	email: String,
-	password: String
-})
-
-//ahora debemos compilar nuestro Schema en Model
-var User = mongoose.model('User', UserSchema)
-
-
+//llamamos al modelo User
+const User = require('./models/user').User
+//requerimos Express
 const express = require('express')
 var app = express()
 
