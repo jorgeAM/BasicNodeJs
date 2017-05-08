@@ -2,10 +2,11 @@ const bodyParser = require('body-parser')
 
 //ORM para mongodb - conexion a mongodb
 const mongoose = require('mongoose')
+mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/fotos')
 
 //creamos el schema de user
-var UserSchema = mongoose.Schema({
+const UserSchema = mongoose.Schema({
 	email: String,
 	password: String
 })
