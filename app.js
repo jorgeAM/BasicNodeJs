@@ -21,10 +21,24 @@ app.get('/', (req, res)=>{
 })
 
 app.get('/login', (req, res)=>{
-	User.find((err, doc)=>{
+	res.render('login')
+})
+
+app.post('/sessions',(req, res)=>{
+	User.findOne({
+		email: req.body.email, 
+		password: req.body.password
+	}, (err,doc)=>{
+		if (err){
+			console.log(err)
+		}
 		console.log(doc)
-		res.render('login')
-	})
+		res.send('Hola Mundo')
+	})	
+})
+
+app.get('/signup', (req, res)=>{
+	res.render('signup')
 })
 
 app.post('/users',(req, res)=>{
