@@ -30,11 +30,13 @@ app.get('/login', (req, res)=>{
 app.post('/users',(req, res)=>{
 	//creamos modelo User
 	let user = new  User({
+		username: req.body.username,
 		email: req.body.email,
 		password: req.body.password,
 		//virtual
 		password_confirmation: req.body.password_confirmation
 	})
+	console.log(user.password)
 	console.log(user.password_confirmation)
 	//guardamos user
 	user.save((err)=>{
