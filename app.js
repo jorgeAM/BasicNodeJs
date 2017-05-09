@@ -37,7 +37,10 @@ app.post('/users',(req, res)=>{
 	})
 	console.log(user.password_confirmation)
 	//guardamos user
-	user.save(()=>{
+	user.save((err)=>{
+		if(err){
+			console.log(String(err))
+		}
 		res.send("Recibimos tus datos")
 	})
 })

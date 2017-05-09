@@ -5,11 +5,12 @@ mongoose.connect('mongodb://localhost/fotos')
 //creamos el schema de user
 const UserSchema = mongoose.Schema({
 	name: String,
-	username: String,
-	email: String,
+	username: {type: String, required: true, maxLength: 50, minLength: 8},
+	email: {type: String, required: true, match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/]},
 	password: String,
-	age: Number,
-	date_of_birth: Date
+	age: {type: Number, min: 5, max: 100},
+	date_of_birth: Date,
+	sex: {type: String, enum:['Masculino', 'Femenino']}
 
 })
 
