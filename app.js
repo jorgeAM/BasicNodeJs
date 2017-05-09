@@ -36,14 +36,12 @@ app.post('/users',(req, res)=>{
 		//virtual
 		password_confirmation: req.body.password_confirmation
 	})
-	console.log(user.password)
-	console.log(user.password_confirmation)
-	//guardamos user
-	user.save((err)=>{
-		if(err){
-			console.log(String(err))
-		}
-		res.send("Recibimos tus datos")
+	//guardamos user usando promise
+	user.save().then((us)=>{
+		res.send("Guardamos el usuario sin problemas!")
+	}, (err)=>{
+		console.log(String(err))
+		res.send("Hubo problemas!")
 	})
 })
 
