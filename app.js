@@ -31,8 +31,11 @@ app.post('/users',(req, res)=>{
 	//creamos modelo User
 	let user = new  User({
 		email: req.body.email,
-		password: req.body.password
+		password: req.body.password,
+		//virtual
+		password_confirmation: req.body.password_confirmation
 	})
+	console.log(user.password_confirmation)
 	//guardamos user
 	user.save(()=>{
 		res.send("Recibimos tus datos")

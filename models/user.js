@@ -13,6 +13,13 @@ const UserSchema = mongoose.Schema({
 
 })
 
+/** VIRTUAL PARA VALIDACION **/
+UserSchema.virtual('password_confirmation').get(()=>{
+	return this.confirmation
+}).set((password)=>{
+	this.confirmation = password
+})
+
 //ahora debemos compilar nuestro Schema en Model
 var User = mongoose.model('User', UserSchema)
 
