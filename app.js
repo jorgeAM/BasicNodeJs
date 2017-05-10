@@ -5,6 +5,8 @@ const User = require('./models/user').User
 const session = require('express-session')
 //requerimos router
 const router_app = require('./routes_app')
+//middleware de session
+const session_middleware = require('./middlewares/session')
 //requerimos Express
 const express = require('express')
 var app = express()
@@ -70,6 +72,8 @@ app.post('/users',(req, res)=>{
 	})
 })
 
+//pasamos para ver si hay usuario con sesión iniciada
+app.use('/app', session_middleware)
 //montamos router
 app.use('/app', router_app)
 
