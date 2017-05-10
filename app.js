@@ -46,7 +46,7 @@ app.post('/sessions',(req, res)=>{
 			console.log(err)
 		}
 		req.session.user_id = user._id
-		res.send("Hola Mundo")
+		res.redirect('/app')
 	})	
 })
 
