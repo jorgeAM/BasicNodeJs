@@ -3,6 +3,8 @@ const bodyParser = require('body-parser')
 const User = require('./models/user').User
 //API para sesiones de express
 const session = require('express-session')
+//requerimos router
+const router_app = require('./routes_app')
 //requerimos Express
 const express = require('express')
 var app = express()
@@ -67,6 +69,9 @@ app.post('/users',(req, res)=>{
 		res.send("Hubo problemas!")
 	})
 })
+
+//montamos router
+app.use('/app', router_app)
 
 app.listen(3000, ()=>{
   console.log('Example app listening on port 3000!')
