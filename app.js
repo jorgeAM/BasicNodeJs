@@ -1,6 +1,8 @@
 const bodyParser = require('body-parser')
 //llamamos al modelo User
 const User = require('./models/user').User
+//API para sesiones de express
+const session = require('express-session')
 //requerimos Express
 const express = require('express')
 var app = express()
@@ -12,11 +14,18 @@ app.use(express.static('public'))
 app.use(bodyParser.json())
 //middleware para que acepte formato json
 app.use(bodyParser.urlencoded({ extended: true }))
+//middleware para sesiones
+app.use(session({
+	secret: "124fdsgsa14gbt",
+	resave: false,
+	saveUninitialized: false
+}))
 
 //configuramos el motor de vista
 app.set('view engine', 'pug')
 
 app.get('/', (req, res)=>{
+  console.log(req.session.user_id)
   res.render('index')
 })
 
@@ -28,12 +37,12 @@ app.post('/sessions',(req, res)=>{
 	User.findOne({
 		email: req.body.email, 
 		password: req.body.password
-	}, (err,doc)=>{
+	}, (err,user)=>{
 		if (err){
 			console.log(err)
 		}
-		console.log(doc)
-		res.send('Hola Mundo')
+		req.session.user_id = user._id
+		res.send("Hola Mundo")
 	})	
 })
 

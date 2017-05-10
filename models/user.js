@@ -14,6 +14,7 @@ const UserSchema = mongoose.Schema({
 	},
 	email: {
 		type: String,
+		unique: true,
 		required: true,
 		match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/]
 	},
@@ -47,9 +48,9 @@ const UserSchema = mongoose.Schema({
 
 /** VIRTUAL PARA VALIDACION **/
 UserSchema.virtual('password_confirmation').get(()=>{
-	return this.confirmation
-}).set((password)=>{
-	this.confirmation = password
+	return this._password
+}).set((p)=>{
+	this._password = p
 })
 
 //ahora debemos compilar nuestro Schema en Model
