@@ -2,7 +2,7 @@ const bodyParser = require('body-parser')
 //llamamos al modelo User
 const User = require('./models/user').User
 //API para sesiones de express
-const session = require('express-session')
+const cookieSession = require('cookie-session')
 //requerimos router
 const router_app = require('./routes_app')
 //middleware de session
@@ -19,10 +19,9 @@ app.use(bodyParser.json())
 //middleware para que acepte formato json
 app.use(bodyParser.urlencoded({ extended: true }))
 //middleware para sesiones
-app.use(session({
-	secret: "124fdsgsa14gbt",
-	resave: false,
-	saveUninitialized: false
+app.use(cookieSession({
+	name: 'session',
+	keys: ['llave-1', 'llave2'],
 }))
 
 //configuramos el motor de vista
