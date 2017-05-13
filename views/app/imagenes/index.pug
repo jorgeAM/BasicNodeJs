@@ -11,4 +11,5 @@ block contenido
 					div(class="col-md-2")
 						- var id = imagen._id
 						a(href="/app/imagenes/"+id+"/edit" class="right-space") Editar
-						a(href="/app/imagenes/"+id+"/delete") Eliminar
+						form(action="/app/imagenes/"+id+"/?_method=DELETE" method="POST" class="link")
+							input(type="submit" value="Eliminar")

@@ -51,6 +51,13 @@ router.route('/imagenes/:id')
 	})
 	.delete((req,res)=>{
 		//delete
+		Image.findOneAndRemove({_id: req.params.id}, (err)=>{
+			if (err){
+				console.log(err)
+				res.redirect('/app/imagenes/'+image._id)
+			}
+			res.redirect('/app/imagenes')
+		})
 	})
 
 	router.route('/imagenes/')
