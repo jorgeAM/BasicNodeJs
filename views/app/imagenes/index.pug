@@ -1,0 +1,14 @@
+extends ../../layout.pug
+
+block contenido
+	div(class="container")
+		h1 Mis imágenes
+		for imagen in images
+			div(class="white border tr large-padding")
+				div(class="row")
+					div(class="col-md-10")
+						h1 #{imagen.title}
+					div(class="col-md-2")
+						- var id = imagen._id
+						a(href="/app/imagenes/"+id+"/edit" class="right-space") Editar
+						a(href="/app/imagenes/"+id+"/delete") Eliminar

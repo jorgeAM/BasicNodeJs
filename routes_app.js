@@ -15,7 +15,12 @@ router.get('/imagenes/new',(req,res)=>{
 })
 
 router.get('/imagenes/:id/edit',(req,res)=>{
-
+	Image.findById(req.params.id, (err, image)=>{
+		if (err){
+			console.log(err)
+		}
+		res.render('app/imagenes/edit', {image: image})
+	})
 })
 
 router.route('/imagenes/:id')
@@ -30,6 +35,12 @@ router.route('/imagenes/:id')
 	})
 	.put((req,res)=>{
 		//update
+		Image.findById(req.params.id, (err, image)=>{
+			if (err){
+				console.log(err)
+			}
+			image.title = req.body.title
+		})
 	})
 	.delete((req,res)=>{
 		//delete
@@ -38,6 +49,14 @@ router.route('/imagenes/:id')
 	router.route('/imagenes/')
 	.get((req,res)=>{
 		//index
+		Image.find({},(err, images)=>{
+			if (err){
+				console.log(err)
+				res.redirect('/app')
+				return
+			}
+			res.render('app/imagenes/index', {images: images})
+		})
 
 	})
 	.post((req,res)=>{
