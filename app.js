@@ -1,3 +1,4 @@
+//API para paso de datos
 const bodyParser = require('body-parser')
 //llamamos al modelo User
 const User = require('./models/user').User
@@ -7,6 +8,10 @@ const cookieSession = require('cookie-session')
 const router_app = require('./routes_app')
 //middleware de session
 const session_middleware = require('./middlewares/session')
+
+//API methodOverride
+const methodOverride = require('method-override')
+
 //requerimos Express
 const express = require('express')
 var app = express()
@@ -18,6 +23,9 @@ app.use(express.static('public'))
 app.use(bodyParser.json())
 //middleware para que acepte formato json
 app.use(bodyParser.urlencoded({ extended: true }))
+
+app.use(methodOverride('_method'))
+
 //middleware para sesiones
 app.use(cookieSession({
 	name: 'session',

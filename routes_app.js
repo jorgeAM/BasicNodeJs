@@ -40,6 +40,13 @@ router.route('/imagenes/:id')
 				console.log(err)
 			}
 			image.title = req.body.title
+			image.save((err)=>{
+				if (err){
+					console.log(err)
+					res.render('app/imagenes/'+image._id, {image: image})
+				}
+				res.render('app/imagenes/show', {image: image})
+			})
 		})
 	})
 	.delete((req,res)=>{
