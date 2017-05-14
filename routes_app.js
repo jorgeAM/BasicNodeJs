@@ -4,6 +4,8 @@ const express = require('express')
 const Image = require('./models/image').Image
 //creamos un objeto router
 const router = express.Router()
+//llamamos middleware para buscar imagene
+const image_finder = require('./middlewares/find_image')
 
 router.get('/', function (req, res) {
 	res.render('app/home')
@@ -14,39 +16,29 @@ router.get('/imagenes/new',(req,res)=>{
 	res.render('app/imagenes/new')
 })
 
+
+/*haremos que determinadas rutas usen un middleware*/
+router.all('/imagenes/:id*', image_finder)
+
+
 router.get('/imagenes/:id/edit',(req,res)=>{
-	Image.findById(req.params.id, (err, image)=>{
-		if (err){
-			console.log(err)
-		}
-		res.render('app/imagenes/edit', {image: image})
-	})
+	res.render('app/imagenes/edit')
 })
 
 router.route('/imagenes/:id')
 	.get((req,res)=>{
 		//show
-		Image.findById(req.params.id, (err, image)=>{
-			if (err){
-				console.log(err)
-			}
-			res.render('app/imagenes/show', {image: image})
-		})
+		res.render('app/imagenes/show')
 	})
 	.put((req,res)=>{
 		//update
-		Image.findById(req.params.id, (err, image)=>{
+		res.locals.image.title = req.body.title
+		res.locals.image.save((err)=>{
 			if (err){
 				console.log(err)
+				res.render('app/imagenes/'+req.params.id+'/edit')
 			}
-			image.title = req.body.title
-			image.save((err)=>{
-				if (err){
-					console.log(err)
-					res.render('app/imagenes/'+image._id, {image: image})
-				}
-				res.render('app/imagenes/show', {image: image})
-			})
+			res.render('app/imagenes/show')
 		})
 	})
 	.delete((req,res)=>{
@@ -59,6 +51,7 @@ router.route('/imagenes/:id')
 			res.redirect('/app/imagenes')
 		})
 	})
+
 
 	router.route('/imagenes/')
 	.get((req,res)=>{
