@@ -7,7 +7,7 @@ const ImageSchema = mongoose.Schema({
 		required: true
 	},
 	creator: {
-		type: Schema.Types.ObjectId,
+		type: mongoose.Schema.ObjectId,
 		ref: 'User'
 	}
 })

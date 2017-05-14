@@ -56,7 +56,7 @@ router.route('/imagenes/:id')
 	router.route('/imagenes/')
 	.get((req,res)=>{
 		//index
-		Image.find({},(err, images)=>{
+		Image.find({creator: res.locals.user._id},(err, images)=>{
 			if (err){
 				console.log(err)
 				res.redirect('/app')
@@ -67,9 +67,11 @@ router.route('/imagenes/:id')
 
 	})
 	.post((req,res)=>{
+		console.log(res.locals.user._id)
 		//create
 		var image = new Image({
-			title: req.body.title
+			title: req.body.title,
+			creator: res.locals.user._id
 		})
 		image.save((err,doc)=>{
 			if (err){

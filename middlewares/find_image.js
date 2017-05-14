@@ -2,7 +2,9 @@
 const Image = require('../models/image').Image
 
 module.exports = (req, res, next)=>{
-	Image.findById(req.params.id, (err,image)=>{
+	Image.findById(req.params.id)
+	.populate('creator')
+	.exec((err,image)=>{
 		if (image != null){
 			res.locals.image =  image
 			next()
@@ -12,5 +14,5 @@ module.exports = (req, res, next)=>{
 			res.redirect('/app')
 		}
 
-	})
+	}) 
 }
