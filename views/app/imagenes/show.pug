@@ -2,4 +2,5 @@ extends ../../layout.pug
 
 block contenido
 	h1= image.title
-	p Subido por #{image.creator.email}
+	if(typeof image.creator != "undefined")
+		p Subido por #{image.creator.email}
