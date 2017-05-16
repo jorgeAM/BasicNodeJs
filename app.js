@@ -14,7 +14,8 @@ const methodOverride = require('method-override')
 
 //requerimos Express
 const express = require('express')
-var app = express()
+const formidable = require('express-formidable')
+const app = express()
 
 //archivos static
 app.use(express.static('public'))
@@ -82,7 +83,10 @@ app.post('/users',(req, res)=>{
 //pasamos para ver si hay usuario con sesión iniciada
 app.use('/app', session_middleware)
 //montamos router
-app.use('/app', router_app)
+app.use('/app', formidable({
+	keepExtensions: true,
+	uploadDir: 'images'
+}), router_app)
 
 app.listen(3000, ()=>{
   console.log('Example app listening on port 3000!')

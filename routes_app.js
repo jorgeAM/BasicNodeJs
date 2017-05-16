@@ -32,7 +32,7 @@ router.route('/imagenes/:id')
 	})
 	.put((req,res)=>{
 		//update
-		res.locals.image.title = req.body.title
+		res.locals.image.title = req.fields.title
 		res.locals.image.save((err)=>{
 			if (err){
 				console.log(err)
@@ -58,6 +58,7 @@ router.route('/imagenes/:id')
 		//index
 		Image.find({creator: res.locals.user._id},(err, images)=>{
 			if (err){
+				console.log(images)
 				console.log(err)
 				res.redirect('/app')
 				return
@@ -67,14 +68,15 @@ router.route('/imagenes/:id')
 
 	})
 	.post((req,res)=>{
-		console.log(res.locals.user._id)
+		console.log(req.files.img)
 		//create
 		var image = new Image({
-			title: req.body.title,
+			title: req.fields.title,
 			creator: res.locals.user._id
 		})
 		image.save((err,doc)=>{
 			if (err){
+				console.log(image)
 				console.log(err)
 			}
 			res.redirect('/app/imagenes/'+image._id)
