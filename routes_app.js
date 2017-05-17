@@ -6,6 +6,9 @@ const Image = require('./models/image').Image
 const router = express.Router()
 //paquete para mover imag
 const mv = require('mv')
+//REDIS
+const redis = require("redis")
+const client = redis.createClient()
 
 //llamamos middleware para buscar imagene
 const image_finder = require('./middlewares/find_image')
@@ -92,6 +95,16 @@ router.route('/imagenes/:id')
 				console.log(image)
 				console.log(err)
 			}
+
+			//variable JSON que contiene datos de img
+			let imgJSON = {
+				'id': image._id,
+				'title': image.title,
+				'extension': image.extension
+			}
+
+			//comunicacion
+			client.publish('images', JSON.stringify(imgJSON))
 			mv(req.files.img.path, 'public/images/'+image._id+'.'+extension,(err)=>{
 				if (err){
 					console.log(err)
