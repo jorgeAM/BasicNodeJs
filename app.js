@@ -10,14 +10,24 @@ const router_app = require('./routes_app')
 const session_middleware = require('./middlewares/session')
 //API para conectar con reddis
 const RedisStore = require('connect-redis')(session);
-
+//servidor http
+const http = require('http')
+//importamos modulo creado para usar SocketIO
+const realtime = require('./realtime')
 //API methodOverride
 const methodOverride = require('method-override')
 
 //requerimos Express
 const express = require('express')
+
 const formidable = require('express-formidable')
 const app = express()
+//creamos un servidor http para  la app de express
+const server = http.Server(app)
+realtime(server, session({
+	store: new RedisStore(),
+	secret: 'my secret key'
+}))
 
 //archivos static
 app.use(express.static('public'))
@@ -89,6 +99,6 @@ app.use('/app', formidable({
 	keepExtensions: true
 }), router_app)
 
-app.listen(3000, ()=>{
+server.listen(3000, ()=>{
   console.log('Example app listening on port 3000!')
 })
