@@ -84,8 +84,7 @@ app.post('/users',(req, res)=>{
 app.use('/app', session_middleware)
 //montamos router
 app.use('/app', formidable({
-	keepExtensions: true,
-	uploadDir: 'images'
+	keepExtensions: true
 }), router_app)
 
 app.listen(3000, ()=>{

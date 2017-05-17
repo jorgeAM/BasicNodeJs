@@ -4,6 +4,9 @@ const express = require('express')
 const Image = require('./models/image').Image
 //creamos un objeto router
 const router = express.Router()
+//paquete para mover imag
+const mv = require('mv')
+
 //llamamos middleware para buscar imagene
 const image_finder = require('./middlewares/find_image')
 
@@ -32,7 +35,8 @@ router.route('/imagenes/:id')
 	})
 	.put((req,res)=>{
 		//update
-		res.locals.image.title = req.fields.title
+		res.locals.image.title = req.body.title
+		console.log(req.body.title)
 		res.locals.image.save((err)=>{
 			if (err){
 				console.log(err)
@@ -42,6 +46,7 @@ router.route('/imagenes/:id')
 		})
 	})
 	.delete((req,res)=>{
+		console.log(req.params.id)
 		//delete
 		Image.findOneAndRemove({_id: req.params.id}, (err)=>{
 			if (err){
@@ -68,17 +73,24 @@ router.route('/imagenes/:id')
 
 	})
 	.post((req,res)=>{
-		console.log(req.files.img)
+		const extension = req.files.img.name.split('.').pop()
 		//create
 		var image = new Image({
 			title: req.fields.title,
-			creator: res.locals.user._id
+			creator: res.locals.user._id,
+			extension: extension
 		})
 		image.save((err,doc)=>{
 			if (err){
 				console.log(image)
 				console.log(err)
 			}
+			mv(req.files.img.path, 'public/images/'+image._id+'.'+extension,(err)=>{
+				if (err){
+					console.log(err)
+				}
+				console.log('Fichero copiado')
+			})
 			res.redirect('/app/imagenes/'+image._id)
 		})
 	})

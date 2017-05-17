@@ -9,7 +9,12 @@ const ImageSchema = mongoose.Schema({
 	creator: {
 		type: mongoose.Schema.ObjectId,
 		ref: 'User'
+	},
+	extension: {
+		type: String,
+		required: true
 	}
+
 })
 
 //ahora debemos compilar nuestro Schema en Model
