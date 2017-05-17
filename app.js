@@ -3,11 +3,13 @@ const bodyParser = require('body-parser')
 //llamamos al modelo User
 const User = require('./models/user').User
 //API para sesiones de express
-const cookieSession = require('cookie-session')
+const session = require('express-session')
 //requerimos router
 const router_app = require('./routes_app')
 //middleware de session
 const session_middleware = require('./middlewares/session')
+//API para conectar con reddis
+const RedisStore = require('connect-redis')(session);
 
 //API methodOverride
 const methodOverride = require('method-override')
@@ -28,9 +30,9 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 
 //middleware para sesiones
-app.use(cookieSession({
-	name: 'session',
-	keys: ['llave-1', 'llave2'],
+app.use(session({
+	store: new RedisStore(),
+	secret: 'my secret key'
 }))
 
 //configuramos el motor de vista
