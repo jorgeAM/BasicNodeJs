@@ -11,7 +11,14 @@ const mv = require('mv')
 const image_finder = require('./middlewares/find_image')
 
 router.get('/', function (req, res) {
-	res.render('app/home')
+	Image.find()
+	.populate('creator')
+	.exec((err, images)=>{
+		if (err){
+			console.log(err)
+		}
+		res.render('app/home', {images: images})
+	})
 })
 
 /* REST */
